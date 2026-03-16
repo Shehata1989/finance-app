@@ -36,6 +36,7 @@ export interface Expense {
   updatedAt: string;
   userId: string;
   accountId: string;
+  account?: { name: string };
 }
 
 export interface Income {
@@ -48,6 +49,7 @@ export interface Income {
   updatedAt: string;
   userId: string;
   accountId: string;
+  account?: { name: string };
 }
 
 export interface IncomeSource {

@@ -37,6 +37,7 @@ export async function GET(req: NextRequest) {
 
   const incomes = await prisma.income.findMany({
     where,
+    include: { account: { select: { name: true } } },
     orderBy: { date: "desc" },
   });
 

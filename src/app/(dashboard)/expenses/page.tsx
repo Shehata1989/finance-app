@@ -20,17 +20,33 @@ export default function ExpensesPage() {
   const [deleteTarget, setDeleteTarget] = useState<Expense | null>(null);
   const [filters, setFilters] = useState<FilterParams>({});
   const [search, setSearch] = useState("");
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const fetchExpenses = useCallback(async () => {
+    if (!isInitialized) return;
     setLoading(true);
     const params = new URLSearchParams();
     if (filters.startDate) params.set("startDate", filters.startDate);
     if (filters.endDate) params.set("endDate", filters.endDate);
     if (filters.category) params.set("category", filters.category);
+    if (filters.accountId) params.set("accountId", filters.accountId);
     const data = await fetch(`/api/expenses?${params}`).then((r) => r.json());
     setExpenses(Array.isArray(data) ? data : []);
     setLoading(false);
-  }, [filters]);
+  }, [filters, isInitialized]);
+
+  // Pre-load accounts to set default filter
+  useEffect(() => {
+    fetch("/api/accounts")
+      .then((r) => r.json())
+      .then((accounts) => {
+        if (Array.isArray(accounts)) {
+          const main = accounts.find((a) => a.name.includes("رئيسي"));
+          if (main) setFilters((f) => ({ ...f, accountId: main.id }));
+        }
+        setIsInitialized(true);
+      });
+  }, []);
 
   useEffect(() => { fetchExpenses(); }, [fetchExpenses]);
 
@@ -135,7 +151,7 @@ export default function ExpensesPage() {
             <table className="w-full">
               <thead>
                 <tr className="border-b" style={{ borderColor: "var(--border)" }}>
-                  {["العنوان", "الفئة", "المبلغ", "التاريخ", "ملاحظات", ""].map((h) => (
+                  {["العنوان", "الفئة", "الحساب", "المبلغ", "التاريخ", "ملاحظات", ""].map((h) => (
                     <th key={h} className="text-right px-5 py-3.5 text-xs font-medium uppercase tracking-wider"
                       style={{ color: "var(--muted)" }}>{h}</th>
                   ))}
@@ -156,6 +172,7 @@ export default function ExpensesPage() {
                       </div>
                     </td>
                     <td className="px-5 py-3.5"><CategoryBadge category={expense.category} /></td>
+                    <td className="px-5 py-3.5 text-sm" style={{ color: "var(--muted)" }}>{expense.account?.name || "—"}</td>
                     <td className="px-5 py-3.5">
                       <span className="font-mono text-sm font-medium" style={{ color: "var(--danger)" }}>
                         -{formatCurrency(expense.amount)}

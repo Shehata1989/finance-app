@@ -84,8 +84,8 @@ model Expense {
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  accountId String?
-  account   Account? @relation(fields: [accountId], references: [id], onDelete: SetNull)
+  accountId String
+  account   Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
 
   @@map("expenses")
 }
@@ -102,8 +102,8 @@ model Income {
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  accountId String?
-  account   Account? @relation(fields: [accountId], references: [id], onDelete: SetNull)
+  accountId String
+  account   Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
 
   @@map("incomes")
 }

@@ -70,11 +70,13 @@ export async function GET(req: NextRequest) {
   const [recentExpenses, recentIncomes] = await Promise.all([
     prisma.expense.findMany({
       where: { userId },
+      include: { account: { select: { name: true } } },
       orderBy: { date: "desc" },
       take: 5,
     }),
     prisma.income.findMany({
       where: { userId },
+      include: { account: { select: { name: true } } },
       orderBy: { date: "desc" },
       take: 5,
     }),

@@ -21,16 +21,32 @@ export default function IncomePage() {
   const [filters, setFilters] = useState<FilterParams>({});
   const [search, setSearch] = useState("");
   const [sourcesModalOpen, setSourcesModalOpen] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const fetchIncomes = useCallback(async () => {
+    if (!isInitialized) return;
     setLoading(true);
     const params = new URLSearchParams();
     if (filters.startDate) params.set("startDate", filters.startDate);
     if (filters.endDate) params.set("endDate", filters.endDate);
+    if (filters.accountId) params.set("accountId", filters.accountId);
     const data = await fetch(`/api/income?${params}`).then((r) => r.json());
     setIncomes(Array.isArray(data) ? data : []);
     setLoading(false);
-  }, [filters]);
+  }, [filters, isInitialized]);
+
+  // Pre-load accounts to set default filter
+  useEffect(() => {
+    fetch("/api/accounts")
+      .then((r) => r.json())
+      .then((accounts) => {
+        if (Array.isArray(accounts)) {
+          const main = accounts.find((a) => a.name.includes("رئيسي"));
+          if (main) setFilters((f) => ({ ...f, accountId: main.id }));
+        }
+        setIsInitialized(true);
+      });
+  }, []);
 
   useEffect(() => { fetchIncomes(); }, [fetchIncomes]);
 
@@ -118,7 +134,7 @@ export default function IncomePage() {
             <table className="w-full">
               <thead>
                 <tr className="border-b" style={{ borderColor: "var(--border)" }}>
-                  {["المصدر", "المبلغ", "التاريخ", "ملاحظات", ""].map((h) => (
+                  {["المصدر", "الحساب", "المبلغ", "التاريخ", "ملاحظات", ""].map((h) => (
                     <th key={h} className="text-right px-5 py-3.5 text-xs font-medium uppercase tracking-wider"
                       style={{ color: "var(--muted)" }}>{h}</th>
                   ))}
@@ -137,6 +153,7 @@ export default function IncomePage() {
                         <span className="text-sm font-medium">{income.source}</span>
                       </div>
                     </td>
+                    <td className="px-5 py-3.5 text-sm" style={{ color: "var(--muted)" }}>{income.account?.name || "—"}</td>
                     <td className="px-5 py-3.5">
                       <span className="font-mono text-sm font-medium" style={{ color: "var(--success)" }}>
                         +{formatCurrency(income.amount)}

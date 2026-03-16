@@ -29,6 +29,11 @@
   color-scheme: dark;
 }
 
+select option {
+  background-color: var(--surface-2);
+  color: var(--foreground);
+}
+
 /* Light theme */
 .light {
   --background: #f8fafc;

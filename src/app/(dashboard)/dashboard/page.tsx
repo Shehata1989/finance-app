@@ -121,6 +121,9 @@ export default function DashboardPage() {
                       <p className="text-sm font-medium truncate">{expense.title}</p>
                       <div className="flex items-center gap-2 mt-0.5">
                         <CategoryBadge category={expense.category} />
+                        <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "var(--surface-2)", color: "var(--muted)" }}>
+                          {expense.account?.name}
+                        </span>
                         <span className="text-xs" style={{ color: "var(--muted)" }}>{formatDate(expense.date)}</span>
                       </div>
                     </div>
@@ -155,7 +158,12 @@ export default function DashboardPage() {
                     </div>
                     <div className="min-w-0">
                       <p className="text-sm font-medium truncate">{income.source}</p>
-                      <span className="text-xs" style={{ color: "var(--muted)" }}>{formatDate(income.date)}</span>
+                      <div className="flex items-center gap-2 mt-0.5">
+                        <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "var(--surface-2)", color: "var(--muted)" }}>
+                          {income.account?.name}
+                        </span>
+                        <span className="text-xs" style={{ color: "var(--muted)" }}>{formatDate(income.date)}</span>
+                      </div>
                     </div>
                   </div>
                   <span className="text-sm font-medium mr-3 flex-shrink-0" style={{ color: "var(--success)" }}>

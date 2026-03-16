@@ -44,6 +44,15 @@ export async function GET(req: NextRequest) {
       ]);
     }
 
+    // Sort to ensure any account containing "رئيسي" comes first
+    accounts.sort((a, b) => {
+      const aIsMain = a.name.includes("رئيسي");
+      const bIsMain = b.name.includes("رئيسي");
+      if (aIsMain && !bIsMain) return -1;
+      if (!aIsMain && bIsMain) return 1;
+      return 0;
+    });
+
     return Response.json(accounts);
   } catch (error: any) {
     console.error("Fetch accounts error:", error);
@@ -73,7 +82,7 @@ export async function POST(req: NextRequest) {
     return Response.json(account, { status: 201 });
   } catch (error: any) {
     console.error("Create account error:", error);
-    if (error.code === 'P2002') {
+    if (error.code === "P2002") {
       return apiError("هذا الحساب موجود بالفعل", 400);
     }
     return apiError(error.message || "Internal server error", 500);

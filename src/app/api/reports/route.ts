@@ -9,12 +9,18 @@ export async function GET(req: NextRequest) {
   if (!session) return apiError("Unauthorized", 401);
 
   const { searchParams } = req.nextUrl;
-  const monthParam = searchParams.get("month"); // "2024-06"
+  const startDateParam = searchParams.get("startDate");
+  const endDateParam = searchParams.get("endDate");
+  const monthParam = searchParams.get("month");
   const accountId = searchParams.get("accountId");
 
   let start: Date, end: Date;
 
-  if (monthParam) {
+  if (startDateParam && endDateParam) {
+    start = new Date(startDateParam);
+    end = new Date(endDateParam);
+    end.setHours(23, 59, 59, 999);
+  } else if (monthParam) {
     const [year, month] = monthParam.split("-").map(Number);
     start = new Date(year, month - 1, 1);
     end = new Date(year, month, 0, 23, 59, 59);
@@ -25,7 +31,11 @@ export async function GET(req: NextRequest) {
   }
 
   const userId = session.userId;
-  const whereCommon = { userId, date: { gte: start, lte: end }, ...(accountId && accountId !== "ALL" ? { accountId } : {}) };
+  const whereCommon = {
+    userId,
+    date: { gte: start, lte: end },
+    ...(accountId && accountId !== "ALL" ? { accountId } : {}),
+  };
 
   const [expenses, incomes] = await Promise.all([
     prisma.expense.findMany({
@@ -48,18 +58,25 @@ export async function GET(req: NextRequest) {
     categoryMap[e.category] = (categoryMap[e.category] ?? 0) + e.amount;
   });
 
-  const categoryBreakdown = Object.entries(categoryMap).map(([category, amount]) => ({
-    category,
-    amount,
-    color: CATEGORY_COLORS[category] ?? "#6b7280",
-    percentage: totalSpending > 0 ? Math.round((amount / totalSpending) * 100) : 0,
-  }));
+  const categoryBreakdown = Object.entries(categoryMap).map(
+    ([category, amount]) => ({
+      category,
+      amount,
+      color: CATEGORY_COLORS[category] ?? "#6b7280",
+      percentage:
+        totalSpending > 0 ? Math.round((amount / totalSpending) * 100) : 0,
+    }),
+  );
 
   // Monthly trend (last 6 months)
   const months = getPreviousMonths(6);
   const monthlyTrend = await Promise.all(
     months.map(async ({ label, start: mStart, end: mEnd }) => {
-      const trendWhere = { userId, date: { gte: mStart, lte: mEnd }, ...(accountId && accountId !== "ALL" ? { accountId } : {}) };
+      const trendWhere = {
+        userId,
+        date: { gte: mStart, lte: mEnd },
+        ...(accountId && accountId !== "ALL" ? { accountId } : {}),
+      };
       const [inc, exp] = await Promise.all([
         prisma.income.aggregate({ where: trendWhere, _sum: { amount: true } }),
         prisma.expense.aggregate({ where: trendWhere, _sum: { amount: true } }),
@@ -69,12 +86,17 @@ export async function GET(req: NextRequest) {
         income: inc._sum.amount ?? 0,
         expenses: exp._sum.amount ?? 0,
       };
-    })
+    }),
   );
 
   return Response.json({
     period: { start: start.toISOString(), end: end.toISOString() },
-    summary: { totalIncome, totalExpenses, totalSpending, balance: totalIncome - totalSpending },
+    summary: {
+      totalIncome,
+      totalExpenses,
+      totalSpending,
+      balance: totalIncome - totalSpending,
+    },
     categoryBreakdown,
     monthlyTrend,
     expenses: expenses.map((e) => ({ ...e, date: e.date.toISOString() })),

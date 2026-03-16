@@ -68,11 +68,12 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
 interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
   error?: string;
+  placeholder?: string;
   options: { value: string; label: string }[];
 }
 
 export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(function Select(
-  { label, error, options, className, ...props },
+  { label, error, placeholder, options, className, ...props },
   ref
 ) {
   return (
@@ -88,6 +89,11 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(function 
         }}
         {...props}
       >
+        {placeholder && (
+          <option value="" disabled style={{ background: "var(--surface-2)" }}>
+            {placeholder}
+          </option>
+        )}
         {options.map((o) => (
           <option key={o.value} value={o.value} style={{ background: "var(--surface-2)" }}>
             {o.label}

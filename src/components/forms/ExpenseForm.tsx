@@ -29,7 +29,12 @@ interface Props {
   loading?: boolean;
 }
 
-export default function ExpenseForm({ expense, onSubmit, onCancel, loading }: Props) {
+export default function ExpenseForm({
+  expense,
+  onSubmit,
+  onCancel,
+  loading,
+}: Props) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [managerOpen, setManagerOpen] = useState(false);
@@ -46,7 +51,10 @@ export default function ExpenseForm({ expense, onSubmit, onCancel, loading }: Pr
     const res = await fetch("/api/accounts");
     if (res.ok) {
       const data = await res.json();
-      if (Array.isArray(data)) setAccounts(data);
+      if (Array.isArray(data)) {
+        const sorted = [...data].sort((a) => (a.name.includes("رئيسي") ? -1 : 1));
+        setAccounts(sorted);
+      }
     }
   };
 
@@ -55,20 +63,36 @@ export default function ExpenseForm({ expense, onSubmit, onCancel, loading }: Pr
     fetchAccounts();
   }, []);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<FormData>({
     resolver: zodResolver(schema),
-    defaultValues: expense ? {
-      title: expense.title,
-      amount: expense.amount,
-      category: expense.category,
-      date: formatDateForInput(expense.date),
-      notes: expense.notes ?? "",
-      accountId: expense.accountId,
-    } : {
-      date: formatDateForInput(new Date()),
-      accountId: accounts[0]?.id || "",
-    },
+    defaultValues: expense
+      ? {
+          title: expense.title,
+          amount: expense.amount,
+          category: expense.category,
+          date: formatDateForInput(expense.date),
+          notes: expense.notes ?? "",
+          accountId: expense.accountId,
+        }
+      : {
+          date: formatDateForInput(new Date()),
+          accountId: "",
+        },
   });
+
+  useEffect(() => {
+    if (!expense && accounts.length > 0) {
+      const mainAccount = accounts.find(a => a.name.includes("رئيسي")) || accounts[0];
+      if (mainAccount) {
+        setValue("accountId", mainAccount.id);
+      }
+    }
+  }, [accounts, expense, setValue]);
 
   return (
     <>
@@ -95,7 +119,7 @@ export default function ExpenseForm({ expense, onSubmit, onCancel, loading }: Pr
             {...register("date")}
           />
         </div>
-        
+
         <div className="grid grid-cols-2 gap-4">
           <div className="relative">
             <div className="flex items-center justify-between mb-1.5">
@@ -112,7 +136,10 @@ export default function ExpenseForm({ expense, onSubmit, onCancel, loading }: Pr
             </div>
             <Select
               error={errors.category?.message}
-              options={categories.map((c) => ({ value: c.name, label: c.name }))}
+              options={categories.map((c) => ({
+                value: c.name,
+                label: c.name,
+              }))}
               {...register("category")}
             />
           </div>
@@ -121,6 +148,7 @@ export default function ExpenseForm({ expense, onSubmit, onCancel, loading }: Pr
             <label className="text-sm font-medium">الحساب</label>
             <Select
               error={errors.accountId?.message}
+              placeholder="اختر حساب..."
               options={accounts.map((a) => ({ value: a.id, label: a.name }))}
               {...register("accountId")}
             />
@@ -134,7 +162,12 @@ export default function ExpenseForm({ expense, onSubmit, onCancel, loading }: Pr
           {...register("notes")}
         />
         <div className="flex gap-3 pt-2">
-          <Button type="button" variant="secondary" onClick={onCancel} className="flex-1">
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={onCancel}
+            className="flex-1"
+          >
             إلغاء
           </Button>
           <Button type="submit" loading={loading} className="flex-1">
@@ -143,7 +176,11 @@ export default function ExpenseForm({ expense, onSubmit, onCancel, loading }: Pr
         </div>
       </form>
 
-      <Modal isOpen={managerOpen} onClose={() => setManagerOpen(false)} title="إدارة الفئات">
+      <Modal
+        isOpen={managerOpen}
+        onClose={() => setManagerOpen(false)}
+        title="إدارة الفئات"
+      >
         <CategoryManager onCategoriesChange={fetchCategories} />
       </Modal>
     </>

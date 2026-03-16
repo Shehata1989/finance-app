@@ -25,7 +25,12 @@ interface Props {
   loading?: boolean;
 }
 
-export default function IncomeForm({ income, onSubmit, onCancel, loading }: Props) {
+export default function IncomeForm({
+  income,
+  onSubmit,
+  onCancel,
+  loading,
+}: Props) {
   const [sources, setSources] = useState<IncomeSource[]>([]);
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [sourcesLoading, setSourcesLoading] = useState(true);
@@ -48,7 +53,10 @@ export default function IncomeForm({ income, onSubmit, onCancel, loading }: Prop
     try {
       const res = await fetch("/api/accounts");
       const data = await res.json();
-      if (Array.isArray(data)) setAccounts(data);
+      if (Array.isArray(data)) {
+        const sorted = [...data].sort((a) => (a.name.includes("رئيسي") ? -1 : 1));
+        setAccounts(sorted);
+      }
     } catch (e) {
       console.error("Failed to load accounts");
     }
@@ -59,25 +67,46 @@ export default function IncomeForm({ income, onSubmit, onCancel, loading }: Prop
     fetchAccounts();
   }, []);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<FormData>({
     resolver: zodResolver(schema),
-    defaultValues: income ? {
-      source: income.source,
-      amount: income.amount,
-      date: formatDateForInput(income.date),
-      notes: income.notes ?? "",
-      accountId: income.accountId,
-    } : {
-      date: formatDateForInput(new Date()),
-      accountId: accounts[0]?.id || "",
-    },
+    defaultValues: income
+      ? {
+          source: income.source,
+          amount: income.amount,
+          date: formatDateForInput(income.date),
+          notes: income.notes ?? "",
+          accountId: income.accountId,
+        }
+      : {
+          date: formatDateForInput(new Date()),
+          accountId: "",
+        },
   });
+
+  useEffect(() => {
+    if (!income && accounts.length > 0) {
+      const mainAccount = accounts.find(a => a.name.includes("رئيسي")) || accounts[0];
+      if (mainAccount) {
+        setValue("accountId", mainAccount.id);
+      }
+    }
+  }, [accounts, income, setValue]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-1">
-          <label className="text-sm font-medium" style={{ color: "var(--foreground)" }}>المصدر</label>
+          <label
+            className="text-sm font-medium"
+            style={{ color: "var(--foreground)" }}
+          >
+            المصدر
+          </label>
           <div className="flex gap-2">
             <select
               {...register("source")}
@@ -89,21 +118,32 @@ export default function IncomeForm({ income, onSubmit, onCancel, loading }: Prop
               }}
             >
               <option value="">اختر المصدر...</option>
-              {sources.map(s => (
-                <option key={s.id} value={s.name}>{s.name}</option>
+              {sources.map((s) => (
+                <option key={s.id} value={s.name}>
+                  {s.name}
+                </option>
               ))}
             </select>
-            <Button type="button" variant="secondary" onClick={() => setManagerOpen(true)} className="px-3" title="إدارة المصادر">
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => setManagerOpen(true)}
+              className="px-3"
+              title="إدارة المصادر"
+            >
               <Settings className="w-4 h-4" />
             </Button>
           </div>
-          {errors.source?.message && <p className="text-xs text-danger mt-1">{errors.source.message}</p>}
+          {errors.source?.message && (
+            <p className="text-xs text-danger mt-1">{errors.source.message}</p>
+          )}
         </div>
 
         <div className="space-y-1">
           <label className="text-sm font-medium">الحساب</label>
           <Select
             error={errors.accountId?.message}
+            placeholder="اختر حساب..."
             options={accounts.map((a) => ({ value: a.id, label: a.name }))}
             {...register("accountId")}
           />
@@ -133,13 +173,27 @@ export default function IncomeForm({ income, onSubmit, onCancel, loading }: Prop
         {...register("notes")}
       />
       <div className="flex gap-3 pt-2">
-        <Button type="button" variant="secondary" onClick={onCancel} className="flex-1">إلغاء</Button>
+        <Button
+          type="button"
+          variant="secondary"
+          onClick={onCancel}
+          className="flex-1"
+        >
+          إلغاء
+        </Button>
         <Button type="submit" loading={loading} className="flex-1">
           {income ? "حفظ التغييرات" : "إضافة دخل"}
         </Button>
       </div>
-      <Modal isOpen={managerOpen} onClose={() => setManagerOpen(false)} title="إدارة مصادر الدخل">
-        <SourceManager onClose={() => setManagerOpen(false)} onUpdate={fetchSources} />
+      <Modal
+        isOpen={managerOpen}
+        onClose={() => setManagerOpen(false)}
+        title="إدارة مصادر الدخل"
+      >
+        <SourceManager
+          onClose={() => setManagerOpen(false)}
+          onUpdate={fetchSources}
+        />
       </Modal>
     </form>
   );
