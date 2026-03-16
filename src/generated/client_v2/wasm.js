@@ -182,18 +182,6 @@ exports.Prisma.IncomeScalarFieldEnum = {
   accountId: 'accountId'
 };
 
-exports.Prisma.PurchaseScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  quantity: 'quantity',
-  price: 'price',
-  category: 'category',
-  date: 'date',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  userId: 'userId'
-};
-
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -208,16 +196,7 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-exports.Category = exports.$Enums.Category = {
-  FOOD: 'FOOD',
-  BILLS: 'BILLS',
-  TRANSPORT: 'TRANSPORT',
-  ENTERTAINMENT: 'ENTERTAINMENT',
-  RENT: 'RENT',
-  HEALTH: 'HEALTH',
-  EDUCATION: 'EDUCATION',
-  SHOPPING: 'SHOPPING'
-};
+
 
 exports.Prisma.ModelName = {
   User: 'User',
@@ -225,8 +204,7 @@ exports.Prisma.ModelName = {
   CustomCategory: 'CustomCategory',
   IncomeSource: 'IncomeSource',
   Expense: 'Expense',
-  Income: 'Income',
-  Purchase: 'Purchase'
+  Income: 'Income'
 };
 
 /**

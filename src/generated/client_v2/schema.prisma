@@ -18,12 +18,30 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  accounts      Account[]
   expenses      Expense[]
   incomes       Income[]
   categories    CustomCategory[]
   incomeSources IncomeSource[]
 
   @@map("users")
+}
+
+model Account {
+  id        String   @id @default(cuid())
+  name      String
+  type      String   @default("CASH") // e.g., CASH, BANK, SAVINGS
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  expenses Expense[]
+  incomes  Income[]
+
+  @@unique([userId, name])
+  @@map("accounts")
 }
 
 model CustomCategory {
@@ -66,6 +84,9 @@ model Expense {
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  accountId String?
+  account   Account? @relation(fields: [accountId], references: [id], onDelete: SetNull)
+
   @@map("expenses")
 }
 
@@ -80,6 +101,9 @@ model Income {
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  accountId String?
+  account   Account? @relation(fields: [accountId], references: [id], onDelete: SetNull)
 
   @@map("incomes")
 }

@@ -12,7 +12,9 @@ export default function AccountsPage() {
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [newAccount, setNewAccount] = useState({ name: "", type: "CASH" });
+  const [editingAccount, setEditingAccount] = useState<Account | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const fetchAccounts = async () => {
     setLoading(true);
@@ -53,6 +55,51 @@ export default function AccountsPage() {
       toast.error("حدث خطأ ما");
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleEditAccount = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingAccount || !editingAccount.name) return;
+    setSubmitting(true);
+    try {
+      const res = await fetch(`/api/accounts/${editingAccount.id}`, {
+        method: "PUT",
+        body: JSON.stringify({ name: editingAccount.name, type: editingAccount.type }),
+      });
+      if (res.ok) {
+        toast.success("تم تحديث الحساب بنجاح");
+        setEditingAccount(null);
+        fetchAccounts();
+      } else {
+        const error = await res.json();
+        toast.error(error.error || "فشل تحديث الحساب");
+      }
+    } catch (e) {
+      toast.error("حدث خطأ ما");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleDeleteAccount = async (id: string) => {
+    if (!confirm("هل أنت متأكد من حذف هذا الحساب؟")) return;
+    setDeletingId(id);
+    try {
+      const res = await fetch(`/api/accounts/${id}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        toast.success("تم حذف الحساب بنجاح");
+        fetchAccounts();
+      } else {
+        const error = await res.json();
+        toast.error(error.error || "فشل حذف الحساب");
+      }
+    } catch (e) {
+      toast.error("حدث خطأ ما");
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -102,8 +149,29 @@ export default function AccountsPage() {
                   <p className="font-display text-xl">{acc.name}</p>
                 </div>
               </div>
-              <div className="flex items-center justify-between mt-6 text-xs" style={{ color: "var(--muted)" }}>
-                <span>أنشئ في: {new Date(acc.createdAt).toLocaleDateString('ar-EG')}</span>
+              <div className="flex items-center justify-between mt-6">
+                <div className="text-xs" style={{ color: "var(--muted)" }}>
+                  أنشئ في: {new Date(acc.createdAt).toLocaleDateString('ar-EG')}
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    variant="secondary"
+                    className="p-2 h-auto"
+                    onClick={() => setEditingAccount(acc)}
+                  >
+                    <Plus className="w-4 h-4 rotate-45" style={{ transform: "rotate(0deg)" }} />
+                    <span className="sr-only">تعديل</span>
+                    <Plus className="w-4 h-4 hidden" /> {/* dummy for layout */}
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    className="p-2 h-auto text-red-500 hover:text-red-600"
+                    onClick={() => handleDeleteAccount(acc.id)}
+                    loading={deletingId === acc.id}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </div>
               </div>
             </Card>
           ))}
@@ -149,6 +217,40 @@ export default function AccountsPage() {
             <Button type="submit" className="flex-1" loading={submitting}>تأكيد الإضافة</Button>
           </div>
         </form>
+      </Modal>
+
+      <Modal isOpen={!!editingAccount} onClose={() => setEditingAccount(null)} title="تعديل الحساب">
+        {editingAccount && (
+          <form onSubmit={handleEditAccount} className="space-y-4">
+            <Input
+              label="اسم الحساب"
+              value={editingAccount.name}
+              onChange={e => setEditingAccount({ ...editingAccount, name: e.target.value })}
+              required
+            />
+            <div className="space-y-1.5">
+              <label className="text-sm font-medium">نوع الحساب</label>
+              <select
+                className="w-full px-3 py-2 rounded-lg text-sm transition-all focus:outline-none focus:ring-2"
+                style={{
+                  background: "var(--surface-2)",
+                  border: "1px solid var(--border)",
+                  color: "var(--foreground)",
+                }}
+                value={editingAccount.type}
+                onChange={e => setEditingAccount({ ...editingAccount, type: e.target.value })}
+              >
+                <option value="CASH">نقدي / محفظة</option>
+                <option value="BANK">حساب بنكي</option>
+                <option value="SAVINGS">مدخرات</option>
+              </select>
+            </div>
+            <div className="flex gap-3 pt-4">
+              <Button type="button" variant="secondary" className="flex-1" onClick={() => setEditingAccount(null)}>إلغاء</Button>
+              <Button type="submit" className="flex-1" loading={submitting}>تأكيد التعديل</Button>
+            </div>
+          </form>
+        )}
       </Modal>
     </div>
   );

@@ -1,5 +1,0 @@
-2026-03-14 02:53:04 EET LOG:  database system was shut down at 2026-03-14 02:48:24 EET
-2026-03-14 02:54:40 EET ERROR:  canceling statement due to user request
-2026-03-14 02:54:40 EET LOG:  shutting down
-2026-03-14 02:54:40 EET LOG:  checkpoint starting: shutdown immediate
-2026-03-14 02:54:40 EET LOG:  checkpoint complete: wrote 0 buffers (0.0%), wrote 3 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.011 s, sync=0.005 s, total=0.049 s; sync files=2, longest=0.004 s, average=0.003 s; distance=0 kB, estimate=0 kB; lsn=0/261AB38, redo lsn=0/261AB38
