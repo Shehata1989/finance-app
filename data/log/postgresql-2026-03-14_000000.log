@@ -1,0 +1,65 @@
+2026-03-14 01:43:17 EET FATAL:  password authentication failed for user "postgres"
+2026-03-14 01:43:17 EET DETAIL:  Connection matched file "C:/Program Files/PostgreSQL/18/data/pg_hba.conf" line 117: "host    all             all             ::1/128                 scram-sha-256"
+2026-03-14 02:26:30 EET FATAL:  password authentication failed for user "postgres"
+2026-03-14 02:26:30 EET DETAIL:  Connection matched file "C:/Program Files/PostgreSQL/18/data/pg_hba.conf" line 117: "host    all             all             ::1/128                 scram-sha-256"
+2026-03-14 02:27:23 EET FATAL:  password authentication failed for user "postgres"
+2026-03-14 02:27:23 EET DETAIL:  Connection matched file "C:/Program Files/PostgreSQL/18/data/pg_hba.conf" line 117: "host    all             all             ::1/128                 scram-sha-256"
+2026-03-14 02:28:05 EET FATAL:  password authentication failed for user "postgres"
+2026-03-14 02:28:05 EET DETAIL:  Connection matched file "C:/Program Files/PostgreSQL/18/data/pg_hba.conf" line 117: "host    all             all             ::1/128                 scram-sha-256"
+2026-03-14 02:28:05 EET FATAL:  password authentication failed for user "postgres"
+2026-03-14 02:28:05 EET DETAIL:  Connection matched file "C:/Program Files/PostgreSQL/18/data/pg_hba.conf" line 117: "host    all             all             ::1/128                 scram-sha-256"
+2026-03-14 02:28:05 EET FATAL:  password authentication failed for user "postgres"
+2026-03-14 02:28:05 EET DETAIL:  Connection matched file "C:/Program Files/PostgreSQL/18/data/pg_hba.conf" line 117: "host    all             all             ::1/128                 scram-sha-256"
+2026-03-14 02:28:05 EET FATAL:  password authentication failed for user "postgres"
+2026-03-14 02:28:05 EET DETAIL:  Connection matched file "C:/Program Files/PostgreSQL/18/data/pg_hba.conf" line 117: "host    all             all             ::1/128                 scram-sha-256"
+2026-03-14 02:28:07 EET FATAL:  password authentication failed for user "postgres"
+2026-03-14 02:28:07 EET DETAIL:  Connection matched file "C:/Program Files/PostgreSQL/18/data/pg_hba.conf" line 117: "host    all             all             ::1/128                 scram-sha-256"
+2026-03-14 02:28:07 EET FATAL:  password authentication failed for user "postgres"
+2026-03-14 02:28:07 EET DETAIL:  Connection matched file "C:/Program Files/PostgreSQL/18/data/pg_hba.conf" line 117: "host    all             all             ::1/128                 scram-sha-256"
+2026-03-14 02:28:09 EET FATAL:  password authentication failed for user "postgres"
+2026-03-14 02:28:09 EET DETAIL:  Connection matched file "C:/Program Files/PostgreSQL/18/data/pg_hba.conf" line 117: "host    all             all             ::1/128                 scram-sha-256"
+2026-03-14 02:28:09 EET FATAL:  password authentication failed for user "postgres"
+2026-03-14 02:28:09 EET DETAIL:  Connection matched file "C:/Program Files/PostgreSQL/18/data/pg_hba.conf" line 117: "host    all             all             ::1/128                 scram-sha-256"
+2026-03-14 02:28:13 EET FATAL:  password authentication failed for user "postgres"
+2026-03-14 02:28:13 EET DETAIL:  Connection matched file "C:/Program Files/PostgreSQL/18/data/pg_hba.conf" line 117: "host    all             all             ::1/128                 scram-sha-256"
+2026-03-14 02:28:13 EET FATAL:  password authentication failed for user "postgres"
+2026-03-14 02:28:13 EET DETAIL:  Connection matched file "C:/Program Files/PostgreSQL/18/data/pg_hba.conf" line 117: "host    all             all             ::1/128                 scram-sha-256"
+2026-03-14 02:29:50 EET FATAL:  password authentication failed for user "postgres"
+2026-03-14 02:29:50 EET DETAIL:  Connection matched file "C:/Program Files/PostgreSQL/18/data/pg_hba.conf" line 117: "host    all             all             ::1/128                 scram-sha-256"
+2026-03-14 02:29:50 EET FATAL:  password authentication failed for user "postgres"
+2026-03-14 02:29:50 EET DETAIL:  Connection matched file "C:/Program Files/PostgreSQL/18/data/pg_hba.conf" line 117: "host    all             all             ::1/128                 scram-sha-256"
+2026-03-14 02:29:51 EET FATAL:  password authentication failed for user "postgres"
+2026-03-14 02:29:51 EET DETAIL:  Connection matched file "C:/Program Files/PostgreSQL/18/data/pg_hba.conf" line 117: "host    all             all             ::1/128                 scram-sha-256"
+2026-03-14 02:29:51 EET FATAL:  password authentication failed for user "postgres"
+2026-03-14 02:29:51 EET DETAIL:  Connection matched file "C:/Program Files/PostgreSQL/18/data/pg_hba.conf" line 117: "host    all             all             ::1/128                 scram-sha-256"
+2026-03-14 02:30:14 EET FATAL:  password authentication failed for user "postgres"
+2026-03-14 02:30:14 EET DETAIL:  Connection matched file "C:/Program Files/PostgreSQL/18/data/pg_hba.conf" line 117: "host    all             all             ::1/128                 scram-sha-256"
+2026-03-14 02:30:14 EET FATAL:  password authentication failed for user "postgres"
+2026-03-14 02:30:14 EET DETAIL:  Connection matched file "C:/Program Files/PostgreSQL/18/data/pg_hba.conf" line 117: "host    all             all             ::1/128                 scram-sha-256"
+2026-03-14 02:31:39 EET FATAL:  password authentication failed for user "postgres"
+2026-03-14 02:31:39 EET DETAIL:  Connection matched file "C:/Program Files/PostgreSQL/18/data/pg_hba.conf" line 117: "host    all             all             ::1/128                 scram-sha-256"
+2026-03-14 02:31:39 EET FATAL:  password authentication failed for user "postgres"
+2026-03-14 02:31:39 EET DETAIL:  Connection matched file "C:/Program Files/PostgreSQL/18/data/pg_hba.conf" line 115: "host    all             all             127.0.0.1/32            scram-sha-256"
+2026-03-14 02:32:26 EET FATAL:  database "mydb" does not exist
+2026-03-14 02:32:26 EET FATAL:  database "mydb" does not exist
+2026-03-14 02:32:26 EET FATAL:  database "mydb" does not exist
+2026-03-14 02:32:26 EET FATAL:  database "mydb" does not exist
+2026-03-14 02:32:27 EET ERROR:  relation "_prisma_migrations" does not exist at character 126
+2026-03-14 02:32:27 EET STATEMENT:  SELECT "id", "checksum", "finished_at", "migration_name", "logs", "rolled_back_at", "started_at", "applied_steps_count" FROM "_prisma_migrations" ORDER BY "started_at" ASC
+2026-03-14 02:32:28 EET LOG:  checkpoint starting: immediate force wait
+2026-03-14 02:32:30 EET LOG:  checkpoint complete: wrote 988 buffers (6.0%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 1 recycled; write=0.262 s, sync=1.275 s, total=1.586 s; sync files=303, longest=0.013 s, average=0.005 s; distance=9349 kB, estimate=9349 kB; lsn=0/212B788, redo lsn=0/212B730
+2026-03-14 02:32:31 EET LOG:  checkpoint starting: immediate force wait
+2026-03-14 02:32:31 EET LOG:  checkpoint complete: wrote 6 buffers (0.0%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.002 s, sync=0.029 s, total=0.068 s; sync files=6, longest=0.005 s, average=0.005 s; distance=4699 kB, estimate=8884 kB; lsn=0/25C26E0, redo lsn=0/25C2688
+2026-03-14 02:35:01 EET LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-03-14 02:37:31 EET LOG:  checkpoint starting: time
+2026-03-14 02:37:38 EET LOG:  checkpoint complete: wrote 65 buffers (0.4%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=7.028 s, sync=0.200 s, total=7.252 s; sync files=57, longest=0.006 s, average=0.004 s; distance=321 kB, estimate=8028 kB; lsn=0/2612E00, redo lsn=0/2612D70
+2026-03-14 02:39:39 EET LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-03-14 02:39:39 EET LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-03-14 02:42:31 EET LOG:  checkpoint starting: time
+2026-03-14 02:42:31 EET LOG:  checkpoint complete: wrote 4 buffers (0.0%), wrote 0 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.426 s, sync=0.006 s, total=0.458 s; sync files=1, longest=0.006 s, average=0.006 s; distance=31 kB, estimate=7228 kB; lsn=0/261A9D8, redo lsn=0/261A980
+2026-03-14 02:48:24 EET LOG:  shutting down
+2026-03-14 02:48:24 EET LOG:  checkpoint starting: shutdown immediate
+2026-03-14 02:48:24 EET LOG:  checkpoint complete: wrote 0 buffers (0.0%), wrote 0 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.022 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=6505 kB; lsn=0/261AA88, redo lsn=0/261AA88

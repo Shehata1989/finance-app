@@ -1,0 +1,47 @@
+# 1. Install
+npm install
+
+# 2. Configure
+cp .env.example .env
+# Fill in DATABASE_URL and JWT_SECRET (openssl rand -base64 32)
+
+# 3. Database
+npm run db:push
+npm run db:seed   # creates demo@financeapp.com / password123
+
+# 4. Run
+npm run dev
+
+============================================
+database
+اغير الى اسم قاعدة البيانات
+cd "C:\Program Files\PostgreSQL\18\bin"
+pg_dump -U postgres -d finance_db > D:\finance_backup.sql
+
+=============================================
+
+
+
+الجزء الثاني: بعد تنزيل الويندوز الجديد
+1. تثبيت الأدوات الأساسية:
+
+حمل وثبت Node.js.
+حمل وثبت PostgreSQL (تأكد من تذكر كلمة المرور التي ستضعها للمستخدم postgres).
+2. إنشاء قاعدة بيانات فارغة: افتح الترمينال (CMD) واكتب الأمر التالي لتهيئة المكان للبيانات القديمة:
+
+bash
+createdb -U postgres اسم_قاعدة_بياناتك
+3. إرجاع البيانات (Restore): اذهب بالترمينال إلى المجلد الذي وضعت فيه ملف finance_backup.sql واكتب:
+
+bash
+psql -U postgres -d اسم_قاعدة_بياناتك < finance_backup.sql
+أدخل كلمة المرور، وانتظر ثواني حتى ينتهي من سحب كافة الجداول والبيانات.
+الجزء الثالث: تشغيل المشروع مرة أخرى
+1. تحديث الإعدادات: افتح فولدر المشروع في VS Code، وتأكد من ملف .env:
+
+env
+DATABASE_URL="postgresql://postgres:كلمة_المرور_الجديدة@localhost:5432/اسم_قاعدة_البيانات"
+
+
+
+
