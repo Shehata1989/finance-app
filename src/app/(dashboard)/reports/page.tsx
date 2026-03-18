@@ -13,7 +13,13 @@ import {
   Filter,
   Calendar,
 } from "lucide-react";
-import { formatCurrency, CATEGORY_LABELS, CATEGORY_COLORS, formatDateForInput, cn } from "@/lib/utils";
+import {
+  formatCurrency,
+  CATEGORY_LABELS,
+  CATEGORY_COLORS,
+  formatDateForInput,
+  cn,
+} from "@/lib/utils";
 import { Card, StatCard, Spinner, Select } from "@/components/ui";
 import { Account } from "@/types";
 import IncomeExpenseChart from "@/components/charts/IncomeExpenseChart";
@@ -50,9 +56,13 @@ export default function ReportsPage() {
   const [selectedAccountId, setSelectedAccountId] = useState("ALL");
   const [loading, setLoading] = useState(true);
   const [isInitialized, setIsInitialized] = useState(false);
-  
-  const [startDate, setStartDate] = useState(formatDateForInput(startOfMonth(new Date())));
-  const [endDate, setEndDate] = useState(formatDateForInput(endOfMonth(new Date())));
+
+  const [startDate, setStartDate] = useState(
+    formatDateForInput(startOfMonth(new Date())),
+  );
+  const [endDate, setEndDate] = useState(
+    formatDateForInput(endOfMonth(new Date())),
+  );
 
   const dateLabel = `${format(new Date(startDate), "dd MMM yyyy", { locale: arSA })} - ${format(new Date(endDate), "dd MMM yyyy", { locale: arSA })}`;
 
@@ -74,7 +84,9 @@ export default function ReportsPage() {
   useEffect(() => {
     if (!isInitialized) return;
     setLoading(true);
-    fetch(`/api/reports?startDate=${startDate}&endDate=${endDate}&accountId=${selectedAccountId}`)
+    fetch(
+      `/api/reports?startDate=${startDate}&endDate=${endDate}&accountId=${selectedAccountId}`,
+    )
       .then((r) => r.json())
       .then(setData)
       .finally(() => setLoading(false));
@@ -147,28 +159,46 @@ export default function ReportsPage() {
               />
             </div>
             <div className="flex items-center gap-2">
-              <button 
+              <button
                 onClick={() => setRange(0)}
-                className={cn("px-3 py-1.5 rounded-xl text-xs font-medium transition-all hover:opacity-75", 
-                  formatDateForInput(startOfMonth(new Date())) === startDate ? "bg-accent text-white" : "hover:bg-surface-2 text-muted")}
-                style={formatDateForInput(startOfMonth(new Date())) === startDate ? { background: "var(--accent)", color: "white" } : {}}
-              >الشهر الحالي</button>
-              <button 
+                className={cn(
+                  "px-3 py-1.5 rounded-xl text-xs font-medium transition-all hover:opacity-75",
+                  formatDateForInput(startOfMonth(new Date())) === startDate
+                    ? "bg-accent text-white"
+                    : "hover:bg-surface-2 text-muted",
+                )}
+                style={
+                  formatDateForInput(startOfMonth(new Date())) === startDate
+                    ? { background: "var(--accent)", color: "white" }
+                    : {}
+                }
+              >
+                الشهر الحالي
+              </button>
+              <button
                 onClick={() => setRange(3)}
                 className="px-3 py-1.5 rounded-xl text-xs font-medium hover:bg-surface-2 text-muted transition-all"
-              >3 أشهر</button>
-              <button 
+              >
+                3 أشهر
+              </button>
+              <button
                 onClick={() => setRange(6)}
                 className="px-3 py-1.5 rounded-xl text-xs font-medium hover:bg-surface-2 text-muted transition-all"
-              >6 أشهر</button>
-              <button 
+              >
+                6 أشهر
+              </button>
+              <button
                 onClick={() => setRange(9)}
                 className="px-3 py-1.5 rounded-xl text-xs font-medium hover:bg-surface-2 text-muted transition-all"
-              >9 أشهر</button>
-              <button 
+              >
+                9 أشهر
+              </button>
+              <button
                 onClick={() => setRange(12)}
                 className="px-3 py-1.5 rounded-xl text-xs font-medium hover:bg-surface-2 text-muted transition-all"
-              >سنة كاملة</button>
+              >
+                سنة كاملة
+              </button>
             </div>
           </div>
         </div>
@@ -198,7 +228,7 @@ export default function ReportsPage() {
             />
             <StatCard
               title="الرصيد الصافي"
-              value={formatCurrency(Math.abs(data.summary.balance))}
+              value={formatCurrency(data.summary.balance)}
               subtitle={data.summary.balance >= 0 ? "فائض" : "عجز"}
               icon={<Wallet className="w-5 h-5" />}
               accentColor={

@@ -46,14 +46,26 @@ export default function DashboardPage() {
           </p>
         </div>
         <div className="flex gap-2">
-          <Link href="/income"
+          <Link
+            href="/income"
             className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all hover:opacity-80"
-            style={{ background: "rgba(52,211,153,0.12)", color: "var(--success)", border: "1px solid rgba(52,211,153,0.2)" }}>
+            style={{
+              background: "rgba(52,211,153,0.12)",
+              color: "var(--success)",
+              border: "1px solid rgba(52,211,153,0.2)",
+            }}
+          >
             <Plus className="w-4 h-4" /> دخل
           </Link>
-          <Link href="/expenses"
+          <Link
+            href="/expenses"
             className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all hover:opacity-80"
-            style={{ background: "rgba(248,113,113,0.12)", color: "var(--danger)", border: "1px solid rgba(248,113,113,0.2)" }}>
+            style={{
+              background: "rgba(248,113,113,0.12)",
+              color: "var(--danger)",
+              border: "1px solid rgba(248,113,113,0.2)",
+            }}
+          >
             <Plus className="w-4 h-4" /> مصروف
           </Link>
         </div>
@@ -102,33 +114,67 @@ export default function DashboardPage() {
         <Card>
           <div className="flex items-center justify-between mb-5">
             <h3 className="font-display text-xl">آخر المصروفات</h3>
-            <Link href="/expenses" className="text-xs font-medium hover:opacity-80"
-              style={{ color: "var(--accent-foreground)" }}>عرض الكل ←</Link>
+            <Link
+              href="/expenses"
+              className="text-xs font-medium hover:opacity-80"
+              style={{ color: "var(--accent-foreground)" }}
+            >
+              عرض الكل ←
+            </Link>
           </div>
           {stats.recentExpenses.length === 0 ? (
-            <p className="text-sm text-center py-8" style={{ color: "var(--muted)" }}>لا توجد مصروفات بعد</p>
+            <p
+              className="text-sm text-center py-8"
+              style={{ color: "var(--muted)" }}
+            >
+              لا توجد مصروفات بعد
+            </p>
           ) : (
             <div className="space-y-3">
               {stats.recentExpenses.map((expense) => (
-                <div key={expense.id} className="flex items-center justify-between py-2.5 border-b last:border-0"
-                  style={{ borderColor: "var(--border-subtle)" }}>
+                <div
+                  key={expense.id}
+                  className="flex items-center justify-between py-2.5 border-b last:border-0"
+                  style={{ borderColor: "var(--border-subtle)" }}
+                >
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 text-sm"
-                      style={{ background: "rgba(248,113,113,0.12)", color: "var(--danger)" }}>
+                    <div
+                      className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 text-sm"
+                      style={{
+                        background: "rgba(248,113,113,0.12)",
+                        color: "var(--danger)",
+                      }}
+                    >
                       <TrendingDown className="w-4 h-4" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-sm font-medium truncate">{expense.title}</p>
+                      <p className="text-sm font-medium truncate">
+                        {expense.title}
+                      </p>
                       <div className="flex items-center gap-2 mt-0.5">
                         <CategoryBadge category={expense.category} />
-                        <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "var(--surface-2)", color: "var(--muted)" }}>
+                        <span
+                          className="text-xs px-2 py-0.5 rounded-full"
+                          style={{
+                            background: "var(--surface-2)",
+                            color: "var(--muted)",
+                          }}
+                        >
                           {expense.account?.name}
                         </span>
-                        <span className="text-xs" style={{ color: "var(--muted)" }}>{formatDate(expense.date)}</span>
+                        <span
+                          className="text-xs"
+                          style={{ color: "var(--muted)" }}
+                        >
+                          {formatDate(expense.date)}
+                        </span>
                       </div>
                     </div>
                   </div>
-                  <span className="text-sm font-medium mr-3 flex-shrink-0" style={{ color: "var(--danger)" }}>
+                  <span
+                    className="text-sm font-medium mr-3 flex-shrink-0"
+                    style={{ color: "var(--danger)" }}
+                  >
                     -{formatCurrency(expense.amount)}
                   </span>
                 </div>
@@ -141,32 +187,66 @@ export default function DashboardPage() {
         <Card>
           <div className="flex items-center justify-between mb-5">
             <h3 className="font-display text-xl">آخر الإيرادات</h3>
-            <Link href="/income" className="text-xs font-medium hover:opacity-80"
-              style={{ color: "var(--accent-foreground)" }}>عرض الكل ←</Link>
+            <Link
+              href="/income"
+              className="text-xs font-medium hover:opacity-80"
+              style={{ color: "var(--accent-foreground)" }}
+            >
+              عرض الكل ←
+            </Link>
           </div>
           {stats.recentIncomes.length === 0 ? (
-            <p className="text-sm text-center py-8" style={{ color: "var(--muted)" }}>لا توجد إيرادات بعد</p>
+            <p
+              className="text-sm text-center py-8"
+              style={{ color: "var(--muted)" }}
+            >
+              لا توجد إيرادات بعد
+            </p>
           ) : (
             <div className="space-y-3">
               {stats.recentIncomes.map((income) => (
-                <div key={income.id} className="flex items-center justify-between py-2.5 border-b last:border-0"
-                  style={{ borderColor: "var(--border-subtle)" }}>
+                <div
+                  key={income.id}
+                  className="flex items-center justify-between py-2.5 border-b last:border-0"
+                  style={{ borderColor: "var(--border-subtle)" }}
+                >
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-                      style={{ background: "rgba(52,211,153,0.12)", color: "var(--success)" }}>
+                    <div
+                      className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                      style={{
+                        background: "rgba(52,211,153,0.12)",
+                        color: "var(--success)",
+                      }}
+                    >
                       <TrendingUp className="w-4 h-4" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-sm font-medium truncate">{income.source}</p>
+                      <p className="text-sm font-medium truncate">
+                        {income.source}
+                      </p>
                       <div className="flex items-center gap-2 mt-0.5">
-                        <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "var(--surface-2)", color: "var(--muted)" }}>
+                        <span
+                          className="text-xs px-2 py-0.5 rounded-full"
+                          style={{
+                            background: "var(--surface-2)",
+                            color: "var(--muted)",
+                          }}
+                        >
                           {income.account?.name}
                         </span>
-                        <span className="text-xs" style={{ color: "var(--muted)" }}>{formatDate(income.date)}</span>
+                        <span
+                          className="text-xs"
+                          style={{ color: "var(--muted)" }}
+                        >
+                          {formatDate(income.date)}
+                        </span>
                       </div>
                     </div>
                   </div>
-                  <span className="text-sm font-medium mr-3 flex-shrink-0" style={{ color: "var(--success)" }}>
+                  <span
+                    className="text-sm font-medium mr-3 flex-shrink-0"
+                    style={{ color: "var(--success)" }}
+                  >
                     +{formatCurrency(income.amount)}
                   </span>
                 </div>

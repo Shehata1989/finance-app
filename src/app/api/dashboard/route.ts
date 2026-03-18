@@ -15,7 +15,14 @@ export async function GET(req: NextRequest) {
   // Current month range
   const now = new Date();
   const currentStart = new Date(now.getFullYear(), now.getMonth(), 1);
-  const currentEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+  const currentEnd = new Date(
+    now.getFullYear(),
+    now.getMonth() + 1,
+    0,
+    23,
+    59,
+    59,
+  );
 
   // Totals (all time)
   const [incomeAgg, expenseAgg] = await Promise.all([
@@ -45,7 +52,7 @@ export async function GET(req: NextRequest) {
         income: inc._sum.amount ?? 0,
         expenses: exp._sum.amount ?? 0,
       };
-    })
+    }),
   );
 
   // Category breakdown (current month expenses)
@@ -57,14 +64,17 @@ export async function GET(req: NextRequest) {
 
   const categoryMap: Record<string, number> = {};
   categoryExpenses.forEach((e) => {
-    categoryMap[e.category] = (categoryMap[e.category] ?? 0) + (e._sum.amount ?? 0);
+    categoryMap[e.category] =
+      (categoryMap[e.category] ?? 0) + (e._sum.amount ?? 0);
   });
 
-  const categoryBreakdown = Object.entries(categoryMap).map(([category, amount]) => ({
-    category,
-    amount,
-    color: CATEGORY_COLORS[category] ?? "#6b7280",
-  }));
+  const categoryBreakdown = Object.entries(categoryMap).map(
+    ([category, amount]) => ({
+      category,
+      amount,
+      color: CATEGORY_COLORS[category] ?? "#6b7280",
+    }),
+  );
 
   // Recent transactions
   const [recentExpenses, recentIncomes] = await Promise.all([
@@ -88,7 +98,13 @@ export async function GET(req: NextRequest) {
     balance,
     monthlyData,
     categoryBreakdown,
-    recentExpenses: recentExpenses.map((e) => ({ ...e, date: e.date.toISOString() })),
-    recentIncomes: recentIncomes.map((i) => ({ ...i, date: i.date.toISOString() })),
+    recentExpenses: recentExpenses.map((e) => ({
+      ...e,
+      date: e.date.toISOString(),
+    })),
+    recentIncomes: recentIncomes.map((i) => ({
+      ...i,
+      date: i.date.toISOString(),
+    })),
   });
 }
