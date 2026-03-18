@@ -330,7 +330,7 @@ export function StatCard({
   accentColor = "var(--accent)",
 }: StatCardProps) {
   const isNegative = value.startsWith("-");
-  const valueColor = isNegative ? "var(--danger)" : "var(--foreground)";
+  const valueColor = isNegative ? "var(--danger)" : accentColor;
 
   return (
     <Card>

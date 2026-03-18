@@ -213,7 +213,7 @@ export default function ReportsPage() {
           {/* Summary Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <StatCard
-              title="الدخل"
+              title="إجمالي الدخل"
               value={formatCurrency(data.summary.totalIncome)}
               subtitle={dateLabel}
               icon={<TrendingUp className="w-5 h-5" />}
